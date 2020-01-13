@@ -31,3 +31,15 @@
 #### 5、更改端口
 在application.properties中添加新的端口```server.port=8081```重新启动程序，运行
 ```http://localhost:8081/greeting?name=dingliangliang```
+
+
+### day2
+使用第三方登录
+修复 session 过期时间很短问题
+
+### day3
+发布问题页面响应式布局
+
+[BootStrap][https://www.bootcss.com/]
+
+
