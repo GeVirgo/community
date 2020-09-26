@@ -63,3 +63,8 @@ create table QUESTION
 		primary key (ID)
 );
 ```
+ÉèÖÃideaÈÈ²¿Êğ
+compiler.automake.allow.when.app.running
+
+Allow auto-make to start even if developed application is currently running. Note that automatically started make may
+eventually delete some classes that are required by the application.

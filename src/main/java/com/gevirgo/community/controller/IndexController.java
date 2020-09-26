@@ -1,15 +1,21 @@
 package com.gevirgo.community.controller;
 
+import com.gevirgo.community.dto.QuestionDTO;
+import com.gevirgo.community.mapper.QuestionMapper;
 import com.gevirgo.community.mapper.UserMapper;
+import com.gevirgo.community.model.Question;
 import com.gevirgo.community.model.User;
+import com.gevirgo.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @ClassName indexController
@@ -21,8 +27,10 @@ import java.util.Collections;
 public class IndexController {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    QuestionService questionService;
     @GetMapping("/")
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request, Model model){
         Cookie[] cookies = request.getCookies();
         if (cookies!=null&&cookies.length!=0){
             for (Cookie cookie : cookies) {
@@ -36,6 +44,8 @@ public class IndexController {
                 }
             }
         }
+        List<QuestionDTO> questionDTOList = questionService.list();
+        model.addAttribute("questions",questionDTOList);
         return "index";
     }
 }
