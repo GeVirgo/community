@@ -68,3 +68,11 @@ compiler.automake.allow.when.app.running
 
 Allow auto-make to start even if developed application is currently running. Note that automatically started make may
 eventually delete some classes that are required by the application.
+
+
+实现分页功能
+1、分析分页计算原理
+2、IndexController.index()方法增加page(页数)、size(每一页展示数)
+2、新增分页元素对象PaginationDTO
+3、对分页标签各元素做判断并赋值
+4、index.html中新增展示分页元素

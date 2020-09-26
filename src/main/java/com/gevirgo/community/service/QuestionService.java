@@ -1,5 +1,6 @@
 package com.gevirgo.community.service;
 
+import com.gevirgo.community.dto.PaginationDTO;
 import com.gevirgo.community.dto.QuestionDTO;
 import com.gevirgo.community.mapper.QuestionMapper;
 import com.gevirgo.community.mapper.UserMapper;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,8 +25,19 @@ public class QuestionService {
     QuestionMapper questionMapper;
     @Autowired
     UserMapper userMapper;
-    public List<QuestionDTO> list() {
-        List<Question> questions = questionMapper.list();
+    public PaginationDTO list(Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount,page,size);
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > paginationDTO.getTotalPage()) {
+            page = paginationDTO.getTotalPage();
+        }
+        //实际的page是 size * (page - 1)
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.list(offset,size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(questions)){
             for (Question question : questions) {
@@ -36,7 +47,8 @@ public class QuestionService {
                 questionDTO.setUser(user);
                 questionDTOList.add(questionDTO);
             }
+            paginationDTO.setQuestions(questionDTOList);
         }
-        return questionDTOList;
+        return paginationDTO;
     }
 }
